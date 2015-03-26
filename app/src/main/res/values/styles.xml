@@ -1,3 +1,15 @@
 <resources>
-    <!--<color name="MainColor">#1d242c</color>-->
+    <color name="main_color">#1d242c</color>
+    <color name="list_pair_number_back_color">#F0F5FA</color>
+    <color name="list_break_back_color">#E1E9F1</color>
+    <color name="list_break_text_color">#7D91A2</color>
+    <color name="list_header_text_color">#C5C5C5</color>
+
+    <style name="SmartskedTheme" parent="Base.V14.Theme.AppCompat">
+        <item name="android:background">@color/main_color</item>
+    </style>
+
+    <style name="SmartskedTheme.NoPair">
+        <item name="android:textColor">#bcb</item>
+    </style>
 </resources>

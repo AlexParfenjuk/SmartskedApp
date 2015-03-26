@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="number_text" type="id"/>
+    <item name="time_text" type="id"/>
+    <item name="discip_text" type="id"/>
+    <item name="type_text" type="id"/>
+    <item name="aud_text" type="id"/>
+    <item name="day_text" type="id"/>
+    <item name="date_text" type="id"/>
+</resources>
