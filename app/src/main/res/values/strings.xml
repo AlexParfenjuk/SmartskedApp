@@ -11,6 +11,7 @@
     <string name="header_aud_text">МІСЦЕ</string>
     <string name="header_num_text">№</string>
     <string name="no_pair_desc_text">Немає пари</string>
+    <string name="list_header_group_name">Розклад групи</string>
 
     <string-array name="weekdays">
         <item>Понеділок</item>

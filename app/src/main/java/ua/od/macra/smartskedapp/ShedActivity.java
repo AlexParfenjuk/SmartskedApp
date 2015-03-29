@@ -1,10 +1,13 @@
 package ua.od.macra.smartskedapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.nirhart.parallaxscroll.views.ParallaxListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +25,7 @@ import ua.od.macra.smartskedapp.models.json.Pair;
 import ua.od.macra.smartskedapp.models.list.ListEntry;
 
 
-public class ShedActivity extends ActionBarActivity {
+public class ShedActivity extends Activity {
 
     public static final String LOG_TAG = ShedActivity.class.getName();
 
@@ -30,10 +33,17 @@ public class ShedActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shed);
-
-        ListView shedLayout = (ListView) findViewById(R.id.shedTable);
-        String[] weekDays = getResources().getStringArray(R.array.weekdays);
         Intent intent = getIntent();
+
+        ParallaxListView shedLayout = (ParallaxListView) findViewById(R.id.shedTable);
+        LinearLayout headerView = new LinearLayout(this);
+        getLayoutInflater().inflate(R.layout.ssked_list_header, headerView);
+        String headerText = getResources().getString(
+                R.string.list_header_group_name) + " " +
+                intent.getStringExtra(Strings.EXTRA_GROUP_NAME);
+        ((TextView)headerView.findViewById(R.id.list_header_group_name)).setText(headerText);
+        shedLayout.addParallaxedHeaderView(headerView);
+        String[] weekDays = getResources().getStringArray(R.array.weekdays);
         ShedModelAdapter modelAdapter = new ShedModelAdapter(this);
         try {
             JSONArray daysJsonArray = new JSONArray(intent.getStringExtra(Strings.EXTRA_JSON));

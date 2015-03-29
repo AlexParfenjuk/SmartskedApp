@@ -70,22 +70,6 @@ public class MainActivity extends Activity {
                 createFromResource(this, R.array.institutes, R.layout.simple_dropdown_item_1line_small));
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("inst", instIndex);
-        outState.putInt("facult", facultIndex);
-        outState.putInt("group", groupIndex);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        instituteSpinner.setSelection(savedInstanceState.getInt("inst"));
-        facultySpinner.setSelection(savedInstanceState.getInt("facult"));
-        groupSpinner.setSelection(savedInstanceState.getInt("group"));
-    }
-
     private AdapterView.OnItemSelectedListener instListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -153,7 +137,7 @@ public class MainActivity extends Activity {
                 }
                 networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
-                    new JSONParser().start();
+                    new JSONParser(groupName).start();
                 } else
                     Toast.makeText(getApplicationContext(), "Не можу загрузити розклад :(", Toast.LENGTH_LONG).show();
             }
@@ -166,6 +150,13 @@ public class MainActivity extends Activity {
     };
 
     private class JSONParser extends Thread {
+
+        String groupName;
+
+        private JSONParser(String groupName) {
+            this.groupName = groupName;
+        }
+
         @Override
         public void run() {
             super.run();
@@ -189,6 +180,7 @@ public class MainActivity extends Activity {
                 }
                 String jsonString = sb.toString();
                 Intent startShed = new Intent(MainActivity.this, ShedActivity.class);
+                startShed.putExtra(Strings.EXTRA_GROUP_NAME, groupName);
                 startShed.putExtra(Strings.EXTRA_JSON, jsonString);
                 MainActivity.this.startActivity(startShed);
             } catch (IOException e) {

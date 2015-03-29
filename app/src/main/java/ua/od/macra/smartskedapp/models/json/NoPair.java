@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import ua.od.macra.smartskedapp.models.Strings;
 
-public class NoPair implements GsonObject {
+public class NoPair implements ShedTask {
 
     public String time_from, time_to, number;
 

@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import ua.od.macra.smartskedapp.models.Strings;
 
-public class Break implements GsonObject {
+public class Break implements ShedTask {
 
     public String type, time_from, time_to;
 

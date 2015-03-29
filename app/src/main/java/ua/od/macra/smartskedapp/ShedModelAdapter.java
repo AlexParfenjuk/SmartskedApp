@@ -1,6 +1,8 @@
 package ua.od.macra.smartskedapp;
 
 import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,11 +16,11 @@ import ua.od.macra.smartskedapp.models.list.ListEntry;
 
 public class ShedModelAdapter extends ArrayAdapter<ListEntry> {
 
-    Activity mContext;
+    private LayoutInflater mInflater;
 
-    public ShedModelAdapter(Activity context){
+    public ShedModelAdapter(Activity context) {
         super(context, R.layout.ssked_dayshed_list_item, new ArrayList<ListEntry>());
-        mContext = context;
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -27,14 +29,13 @@ public class ShedModelAdapter extends ArrayAdapter<ListEntry> {
         View view = convertView;
         ListEntry entry = getItem(position);
         if (view == null) {
-            view = mContext.getLayoutInflater().inflate(R.layout.ssked_dayshed_list_item, parent, false);
+            view = mInflater.inflate(R.layout.ssked_dayshed_list_item, parent, false);
             holder = new ViewHolder();
             holder.dayList = (ListView) view.findViewById(R.id.day_list);
             holder.headerDateText = (TextView) view.findViewById(R.id.header_date_text);
             holder.headerDayText = (TextView) view.findViewById(R.id.header_day_text);
             view.setTag(holder);
-        }
-        else{
+        } else {
             holder = (ViewHolder) view.getTag();
         }
         holder.headerDateText.setText(entry.getDay().date);
@@ -43,7 +44,7 @@ public class ShedModelAdapter extends ArrayAdapter<ListEntry> {
         return view;
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
         public TextView headerDateText, headerDayText;
         public ListView dayList;
     }

@@ -7,6 +7,7 @@ public class Strings {
     public List<Group> groups = new ArrayList<>();
     public List<Faculty> faculties = new ArrayList<>();
     public static final String EXTRA_JSON = Strings.class.getPackage().getName() + "EXTRA_JSON";
+    public static final String EXTRA_GROUP_NAME = Strings.class.getPackage().getName() + "EXTRA_GROUP_NAME";
 
     public static final String NUMBER = "number";
     public static final String TIME_FROM = "time_from";

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ua.od.macra.smartskedapp.models.json.Break;
-import ua.od.macra.smartskedapp.models.json.GsonObject;
+import ua.od.macra.smartskedapp.models.json.ShedTask;
 import ua.od.macra.smartskedapp.models.json.NoPair;
 import ua.od.macra.smartskedapp.models.json.Pair;
 
@@ -21,7 +21,7 @@ public class ShedListAdapter extends BaseAdapter {
     private static final int TYPE_BREAK = 0;
     private static final int TYPE_NOPAIR = 1;
     private static final int TYPE_PAIR = 2;
-    private List<GsonObject> mData = new ArrayList<>();
+    private List<ShedTask> mData = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context mContext;
 
@@ -42,7 +42,7 @@ public class ShedListAdapter extends BaseAdapter {
         return -1;
     }
 
-    public void add(GsonObject object) {
+    public void add(ShedTask object) {
         mData.add(object);
         notifyDataSetChanged();
     }
