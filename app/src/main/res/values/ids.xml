@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="number_text" type="id"/>
-    <item name="time_text" type="id"/>
-    <item name="discip_text" type="id"/>
-    <item name="type_text" type="id"/>
-    <item name="aud_text" type="id"/>
-    <item name="day_text" type="id"/>
-    <item name="date_text" type="id"/>
+    <item name="pair_number_text" type="id"/>
+    <item name="pair_time_text" type="id"/>
+    <item name="pair_discip_text" type="id"/>
+    <item name="pair_type_text" type="id"/>
+    <item name="pair_aud_text" type="id"/>
+    <item name="header_day_text" type="id"/>
+    <item name="header_date_text" type="id"/>
+    <item name="break_time_text" type="id"/>
+    <item name="day_list" type="id"/>
 </resources>

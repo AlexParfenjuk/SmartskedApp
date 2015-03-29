@@ -6,7 +6,7 @@ public class Group {
     private int groupId;
     private String name;
 
-    public Group(Faculty faculty, int groupId, String name){
+    public Group(Faculty faculty, int groupId, String name) {
         this.instId = faculty.getInstId();
         this.facuId = faculty.getFacuId();
         this.groupId = groupId;

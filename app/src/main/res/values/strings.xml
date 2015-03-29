@@ -4,6 +4,22 @@
     <string name="faculty">Факультет</string>
     <string name="group">Група</string>
     <string name="not_chosen">Не обрано</string>
+    <string name="break_text">ПЕРЕРВА</string>
+    <string name="header_time_text">ЧАС</string>
+    <string name="header_discip_text">ПРЕДМЕТ</string>
+    <string name="header_type_text">ТИП</string>
+    <string name="header_aud_text">МІСЦЕ</string>
+    <string name="header_num_text">№</string>
+    <string name="no_pair_desc_text">Немає пари</string>
+
+    <string-array name="weekdays">
+        <item>Понеділок</item>
+        <item>Вівторок</item>
+        <item>Середа</item>
+        <item>Четвер</item>
+        <item>П`ятниця</item>
+        <item>Субота</item>
+    </string-array>
 
     <string-array name="institutes">
         <item>@string/not_chosen</item>
