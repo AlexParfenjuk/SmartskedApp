@@ -1,4 +1,4 @@
-package ua.od.macra.smartskedapp;
+package ua.od.macra.smartsked;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,15 +11,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ua.od.macra.smartskedapp.models.list.ListEntry;
+import ua.od.macra.smartsked.models.list.ListEntry;
 
 
 public class ShedModelAdapter extends ArrayAdapter<ListEntry> {
 
     private LayoutInflater mInflater;
+    private Context mContext;
 
     public ShedModelAdapter(Activity context) {
         super(context, R.layout.ssked_dayshed_list_item, new ArrayList<ListEntry>());
+        mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -38,9 +40,9 @@ public class ShedModelAdapter extends ArrayAdapter<ListEntry> {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.headerDateText.setText(entry.getDay().date);
-        holder.headerDayText.setText(entry.getDay().day);
-        holder.dayList.setAdapter(entry.getListAdapter());
+        holder.headerDateText.setText(entry.getDateString());
+        holder.headerDayText.setText(entry.getDOWString());
+        holder.dayList.setAdapter(new ShedListAdapter(mContext, entry.getEventList()));
         return view;
     }
 

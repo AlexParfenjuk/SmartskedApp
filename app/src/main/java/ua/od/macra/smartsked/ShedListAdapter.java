@@ -1,4 +1,4 @@
-package ua.od.macra.smartskedapp;
+package ua.od.macra.smartsked;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,12 +9,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import ua.od.macra.smartskedapp.models.json.Break;
-import ua.od.macra.smartskedapp.models.json.ShedTask;
-import ua.od.macra.smartskedapp.models.json.NoPair;
-import ua.od.macra.smartskedapp.models.json.Pair;
+import ua.od.macra.smartsked.models.json.Break;
+import ua.od.macra.smartsked.models.json.NoPair;
+import ua.od.macra.smartsked.models.json.Pair;
+import ua.od.macra.smartsked.models.json.ShedTask;
 
 public class ShedListAdapter extends BaseAdapter {
 
@@ -25,9 +27,10 @@ public class ShedListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private Context mContext;
 
-    public ShedListAdapter(Context context) {
+    public ShedListAdapter(Context context, List<ShedTask> tasks) {
         this.mContext = context;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mData = tasks;
     }
 
     @Override
@@ -40,11 +43,6 @@ public class ShedListAdapter extends BaseAdapter {
         else if (object instanceof NoPair)
             return TYPE_NOPAIR;
         return -1;
-    }
-
-    public void add(ShedTask object) {
-        mData.add(object);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -65,6 +63,7 @@ public class ShedListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout view = new LinearLayout(mContext);
+        Date current = Calendar.getInstance().getTime();
         switch (getItemViewType(position)) {
             case TYPE_BREAK: {
                 Break br = (Break) mData.get(position);

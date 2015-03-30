@@ -1,28 +1,28 @@
-package ua.od.macra.smartskedapp;
+package ua.od.macra.smartsked;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-
-import com.nirhart.parallaxscroll.views.ParallaxListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.Date;
+import java.util.List;
 
-import ua.od.macra.smartskedapp.models.Strings;
-import ua.od.macra.smartskedapp.models.json.Break;
-import ua.od.macra.smartskedapp.models.json.Day;
-import ua.od.macra.smartskedapp.models.json.NoPair;
-import ua.od.macra.smartskedapp.models.json.Pair;
-import ua.od.macra.smartskedapp.models.list.ListEntry;
+import ua.od.macra.smartsked.models.Strings;
+import ua.od.macra.smartsked.models.json.Break;
+import ua.od.macra.smartsked.models.json.NoPair;
+import ua.od.macra.smartsked.models.json.Pair;
+import ua.od.macra.smartsked.models.json.ShedTask;
+import ua.od.macra.smartsked.models.list.ListEntry;
 
 
 public class ShedActivity extends Activity {
@@ -35,63 +35,53 @@ public class ShedActivity extends Activity {
         setContentView(R.layout.activity_shed);
         Intent intent = getIntent();
 
-        ParallaxListView shedLayout = (ParallaxListView) findViewById(R.id.shedTable);
+        ListView shedLayout = (ListView) findViewById(R.id.shedTable);
         LinearLayout headerView = new LinearLayout(this);
         getLayoutInflater().inflate(R.layout.ssked_list_header, headerView);
         String headerText = getResources().getString(
                 R.string.list_header_group_name) + " " +
                 intent.getStringExtra(Strings.EXTRA_GROUP_NAME);
         ((TextView)headerView.findViewById(R.id.list_header_group_name)).setText(headerText);
-        shedLayout.addParallaxedHeaderView(headerView);
-        String[] weekDays = getResources().getStringArray(R.array.weekdays);
+        shedLayout.addHeaderView(headerView);
         ShedModelAdapter modelAdapter = new ShedModelAdapter(this);
         try {
             JSONArray daysJsonArray = new JSONArray(intent.getStringExtra(Strings.EXTRA_JSON));
             for (int i = 0; i < daysJsonArray.length(); i++) {
-                ShedListAdapter listAdapter = new ShedListAdapter(this);
+                List<ShedTask> events = new ArrayList<>();
                 Calendar c = Calendar.getInstance();
                 int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
                 if (dayOfWeek < i + 1) {
-                    c.roll(Calendar.DAY_OF_MONTH, 1);
+                    c.add(Calendar.DAY_OF_MONTH, 1);
                     while (!(i + 1 == c.get(Calendar.DAY_OF_WEEK) - 1)) {
-                        c.roll(Calendar.DAY_OF_MONTH, 1);
+                        c.add(Calendar.DAY_OF_MONTH, 1);
                     }
                 } else if (dayOfWeek > i + 1) {
-                    c.roll(Calendar.DAY_OF_MONTH, -1);
+                    c.add(Calendar.DAY_OF_MONTH, -1);
                     while (!(i + 1 == c.get(Calendar.DAY_OF_WEEK) - 1)) {
-                        c.roll(Calendar.DAY_OF_MONTH, -1);
+                        c.add(Calendar.DAY_OF_MONTH, -1);
                     }
                 }
-
+                Date date = c.getTime();
                 JSONArray dayPairsArray = daysJsonArray.getJSONArray(i);
                 for (int j = 0; j < dayPairsArray.length(); j++) {
                     JSONObject object = dayPairsArray.getJSONObject(j);
                     switch (object.length()) {
                         case 3: {
-                            Log.d(LOG_TAG, "Creating" + object.toString());
-                            listAdapter.add(new Break(object));
-                            Log.d(LOG_TAG, "Created");
+                            events.add(new Break(object, date));
                             break;
                         }
                         case 4: {
-                            Log.d(LOG_TAG, "Creating" + object.toString());
-                            listAdapter.add(new NoPair(object));
-                            Log.d(LOG_TAG, "Created");
+                            events.add(new NoPair(object, date));
                             break;
                         }
                         case 6: {
-                            Log.d(LOG_TAG, "Creating" + object.toString());
-                            listAdapter.add(new Pair(object));
-                            Log.d(LOG_TAG, "Created");
+                            events.add(new Pair(object, date));
                             break;
                         }
                     }
                 }
 
-                ListEntry entry = new ListEntry(
-                        new Day(weekDays[i],
-                                new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(c.getTime())),
-                        listAdapter);
+                ListEntry entry = new ListEntry(this, date, events);
                 modelAdapter.add(entry);
             }
             shedLayout.setAdapter(modelAdapter);

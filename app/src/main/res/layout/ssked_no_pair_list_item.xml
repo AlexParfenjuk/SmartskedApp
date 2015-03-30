@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeightSmall"
     android:orientation="horizontal"
-    android:showDividers="none">
+    android:showDividers="none"
+    android:background="#fff">
 
     <TextView
         android:id="@id/pair_number_text"
@@ -24,9 +25,9 @@
         android:background="#fff"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="8:00 - 9:20"
-        android:textSize="15sp"
+        android:textSize="12sp"
         style="@style/SmartskedTheme.NoPair"
-        android:layout_weight="3"
+        android:layout_weight="3.5"
         android:gravity="center" />
 
     <TextView
@@ -38,6 +39,6 @@
         android:textSize="15sp"
         style="@style/SmartskedTheme.NoPair"
         android:gravity="center"
-        android:layout_weight="5" />
+        android:layout_weight="8.5" />
 
 </TableRow>

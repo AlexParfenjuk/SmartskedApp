@@ -28,7 +28,7 @@
         android:textColor="#000"
         tools:text="8:00 - 9:20"
         android:textSize="12sp"
-        android:layout_weight="3"
+        android:layout_weight="3.5"
         android:gravity="center"
         android:ellipsize="marquee" />
 
@@ -41,7 +41,7 @@
         android:textColor="#000"
         tools:text="ГМКІО"
         android:textSize="15sp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:gravity="center"
         android:ellipsize="marquee" />
 
@@ -70,7 +70,7 @@
         android:gravity="center"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
-        android:layout_weight="3"
+        android:layout_weight="2.5"
         android:ellipsize="marquee" />
 
 </LinearLayout>

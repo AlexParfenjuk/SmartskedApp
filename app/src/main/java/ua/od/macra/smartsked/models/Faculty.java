@@ -1,4 +1,4 @@
-package ua.od.macra.smartskedapp.models;
+package ua.od.macra.smartsked.models;
 
 public class Faculty {
     private int instId;

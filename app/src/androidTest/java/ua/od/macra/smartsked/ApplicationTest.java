@@ -1,4 +1,4 @@
-package ua.od.macra.smartskedapp;
+package ua.od.macra.smartsked;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

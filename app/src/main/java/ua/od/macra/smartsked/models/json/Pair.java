@@ -1,17 +1,19 @@
-package ua.od.macra.smartskedapp.models.json;
+package ua.od.macra.smartsked.models.json;
 
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ua.od.macra.smartskedapp.models.Strings;
+import java.util.Date;
 
-public class Pair implements ShedTask {
+import ua.od.macra.smartsked.models.Strings;
+
+public class Pair extends ShedTask {
 
     public String time_from, time_to, name, type, aud, number;
 
-    public Pair(JSONObject jsonObject) {
+    public Pair(JSONObject jsonObject, Date day) {
         try {
             number = jsonObject.getString(Strings.NUMBER);
             time_from = jsonObject.getString(Strings.TIME_FROM);
@@ -19,6 +21,7 @@ public class Pair implements ShedTask {
             name = jsonObject.getString(Strings.DISCIPL);
             type = jsonObject.getString(Strings.TYPE);
             aud = jsonObject.getString(Strings.AUD);
+            date = day;
         } catch (JSONException e) {
             Log.d("PairConstructor", "Can't parse JSON");
         }

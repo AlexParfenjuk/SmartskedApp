@@ -1,4 +1,6 @@
-package ua.od.macra.smartskedapp.models;
+package ua.od.macra.smartsked.models;
+
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,16 @@ public class Strings {
     public static final String TYPE = "type";
     public static final String AUD = "aud";
 
+    public static final String PREF_INST_INDEX = "PREF_INST_INDEX";
+    public static final String PREF_FACULT_INDEX = "PREF_FACULT_INDEX";
+    public static final String PREF_GROUP_INDEX = "PREF_GROUP_INDEX";
+    public static final String API_KEY = "androidappbunny";
+    public static final Uri.Builder URIBUILDER = new Uri.Builder()
+            .scheme("http")
+            .authority("smartsked.com.ua")
+            .appendPath("api")
+            .appendPath("v1")
+            .appendQueryParameter("key", API_KEY);
 
     public Strings() {
         faculties.add(new Faculty(1, 1, "інноваційних технологій харчування, ресторанно-готельного і туристичного бізнесу"));

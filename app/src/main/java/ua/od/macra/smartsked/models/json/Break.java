@@ -1,18 +1,21 @@
-package ua.od.macra.smartskedapp.models.json;
+package ua.od.macra.smartsked.models.json;
 
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ua.od.macra.smartskedapp.models.Strings;
+import java.util.Date;
 
-public class Break implements ShedTask {
+import ua.od.macra.smartsked.models.Strings;
+
+public class Break extends ShedTask {
 
     public String type, time_from, time_to;
 
-    public Break(JSONObject jsonObject) {
+    public Break(JSONObject jsonObject, Date day) {
         try {
+            date = day;
             type = jsonObject.getString(Strings.TYPE);
             time_from = jsonObject.getString(Strings.TIME_FROM);
             time_to = jsonObject.getString(Strings.TIME_TO);
