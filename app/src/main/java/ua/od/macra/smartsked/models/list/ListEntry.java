@@ -26,11 +26,11 @@ public class ListEntry {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
     }
 
-    public String getDOWString(){
+    public String getDOWString() {
         String[] weekDays = mContext.getResources().getStringArray(R.array.weekdays);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return weekDays[calendar.get(Calendar.DAY_OF_WEEK)-2];
+        return weekDays[calendar.get(Calendar.DAY_OF_WEEK) - 2];
     }
 
     public List<ShedTask> getEventList() {

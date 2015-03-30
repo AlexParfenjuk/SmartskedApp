@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,21 +17,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import ua.od.macra.smartsked.models.Faculty;
 import ua.od.macra.smartsked.models.Group;
+import ua.od.macra.smartsked.models.Institute;
 import ua.od.macra.smartsked.models.Strings;
 
 
@@ -41,7 +41,6 @@ public class MainActivity extends Activity {
     public static final String LOG_TAG = MainActivity.class.getName();
 
     Spinner instituteSpinner, facultySpinner, groupSpinner;
-    Strings strings;
     int instIndex, facultIndex, groupIndex;
     List<JSONArray> days = new ArrayList<>();
     private NetworkInfo networkInfo;
@@ -49,6 +48,9 @@ public class MainActivity extends Activity {
     private SharedPreferences.Editor shPrefsEditor;
     private SharedPreferences shPrefs;
     private String groupName;
+    private List<Institute> instList = new ArrayList<>();
+    private List<Faculty> facultList = new ArrayList<>();
+    private List<Group> groupList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +61,26 @@ public class MainActivity extends Activity {
         networkInfo = connMgr.getActiveNetworkInfo();
         shPrefsEditor = getSharedPreferences(LOG_TAG, MODE_PRIVATE).edit();
 
-        strings = new Strings();
         instituteSpinner = (Spinner) findViewById(R.id.instituteSpinner);
         facultySpinner = (Spinner) findViewById(R.id.facultSpinner);
         groupSpinner = (Spinner) findViewById(R.id.groupSpinner);
 
-        instituteSpinner.setAdapter(ArrayAdapter.
-                createFromResource(this, R.array.institutes, R.layout.simple_dropdown_item_1line_small));
+        try {
+            JSONArray instArray = new JSONArray(JSONGetter.getInstList());
+            JSONArray facultArray = new JSONArray(JSONGetter.getFacultList());
+            JSONArray groupArray = new JSONArray(JSONGetter.getGroupList());
+            for (int i = 0; i < instArray.length(); i++) {
+                instList.add(new Institute(instArray.getJSONObject(i)));
+            }
+            for (int i = 0; i < facultArray.length(); i++) {
+                facultList.add(new Faculty(facultArray.getJSONObject(i)));
+            }
+            for (int i = 0; i < groupArray.length(); i++) {
+                groupList.add(new Group(groupArray.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         instituteSpinner.setSelection(0);
         instituteSpinner.setOnItemSelectedListener(instListener);
 
@@ -76,30 +91,38 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        instituteSpinner.setAdapter(ArrayAdapter.
-                createFromResource(this, R.array.institutes, R.layout.simple_dropdown_item_1line_small));
         shPrefs = getSharedPreferences(LOG_TAG, MODE_PRIVATE);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.simple_dropdown_item_1line_small);
+        adapter.add(getResources().getString(R.string.not_chosen));
+        for (Institute inst : instList) {
+            adapter.add(inst.name);
+        }
+        instituteSpinner.setAdapter(adapter);
         instituteSpinner.setSelection(shPrefs.getInt(Strings.PREF_INST_INDEX, 0));
     }
 
     private AdapterView.OnItemSelectedListener instListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Context context = getApplicationContext();
-            List<String> facs = new ArrayList<>();
-            facs.add(context.getResources().getString(R.string.not_chosen));
+            Context context = MainActivity.this;
+            ArrayAdapter<String> adapter =
+                    new ArrayAdapter<>(context, R.layout.simple_dropdown_item_1line_small);
+            adapter.add(context.getResources().getString(R.string.not_chosen));
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             if (position != 0) {
                 instIndex = position;
-                for (Faculty faculty : strings.faculties) {
-                    if (faculty.getInstId() == position) facs.add(faculty.getName());
+                for (Faculty faculty : facultList) {
+                    if (faculty.getInstituteId() == instIndex) adapter.add(faculty.getName());
                 }
+
                 shPrefsEditor.putInt(Strings.PREF_INST_INDEX, position);
                 shPrefsEditor.apply();
+                facultySpinner.setAdapter(adapter);
+                facultySpinner.setSelection(shPrefs.getInt(Strings.PREF_FACULT_INDEX, 0));
+            } else {
+                facultySpinner.setAdapter(adapter);
+                facultySpinner.setSelection(0);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_dropdown_item_1line_small, facs);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            facultySpinner.setAdapter(adapter);
-            facultySpinner.setSelection(shPrefs.getInt(Strings.PREF_FACULT_INDEX, 0));
         }
 
         @Override
@@ -111,27 +134,31 @@ public class MainActivity extends Activity {
     private AdapterView.OnItemSelectedListener facultListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Context context = getApplicationContext();
+            Context context = MainActivity.this;
+            ArrayAdapter<String> adapter =
+                    new ArrayAdapter<>(context, R.layout.simple_dropdown_item_1line_small);
+            adapter.add(context.getResources().getString(R.string.not_chosen));
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
             String facultyName = String.valueOf(((TextView) view).getText());
-            for (Faculty faculty : strings.faculties) {
+            for (Faculty faculty : facultList) {
                 if (faculty.getName().equals(facultyName)) {
-                    facultIndex = faculty.getFacuId();
+                    facultIndex = faculty.getId();
                     break;
                 }
             }
-            List<String> groups = new ArrayList<>();
-            groups.add(context.getResources().getString(R.string.not_chosen));
             if (position != 0) {
-                for (Group group : strings.groups) {
-                    if (group.getFacuId() == facultIndex) groups.add(group.getName());
+                for (Group group : groupList) {
+                    if (group.getFacultyId() == facultIndex) adapter.add(group.getFullName());
                 }
                 shPrefsEditor.putInt(Strings.PREF_FACULT_INDEX, position);
                 shPrefsEditor.apply();
+                groupSpinner.setAdapter(adapter);
+                groupSpinner.setSelection(shPrefs.getInt(Strings.PREF_GROUP_INDEX, 0));
+            } else {
+                groupSpinner.setAdapter(adapter);
+                groupSpinner.setSelection(0);
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_dropdown_item_1line_small, groups);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            groupSpinner.setAdapter(adapter);
-            groupSpinner.setSelection(shPrefs.getInt(Strings.PREF_GROUP_INDEX, 0));
         }
 
         @Override
@@ -144,10 +171,10 @@ public class MainActivity extends Activity {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (position != 0) {
-                groupName = String.valueOf(((TextView) view).getText());
-                for (Group group : strings.groups) {
-                    if (group.getName().equals(groupName)) {
-                        groupIndex = group.getGroupId();
+                groupName = ((TextView) view).getText().toString();
+                for (Group group : groupList) {
+                    if (group.getFullName().equals(groupName)) {
+                        groupIndex = group.getId();
                         break;
                     }
                 }
@@ -167,7 +194,7 @@ public class MainActivity extends Activity {
         networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             try {
-                jsonString = parser.execute().get();
+                jsonString = new Parser().execute().get();
             } catch (InterruptedException | ExecutionException e) {
                 Log.d(LOG_TAG, "Cannot get an AsyncTask result");
             }
@@ -196,30 +223,22 @@ public class MainActivity extends Activity {
             Toast.makeText(getApplicationContext(), "Не можу завантажити розклад :(", Toast.LENGTH_LONG).show();
     }
 
-    private AsyncTask<Void, Integer, String> parser = new AsyncTask<Void, Integer, String>() {
-
+    class Parser extends AsyncTask<Void, Void, String>{
         @Override
         protected String doInBackground(Void... v) {
             String jsonString = "";
             try {
                 days.clear();
-                Uri apiRequestUri = new Uri.Builder()
-                        .scheme("http")
-                        .authority("sskedapp.esy.es")
-                        .appendPath("parser.php")
-                        .appendQueryParameter("inst", "" + instIndex)
-                        .appendQueryParameter("facult", "" + facultIndex)
-                        .appendQueryParameter("group", "" + groupIndex)
-                        .build();
-                HttpURLConnection connection = (HttpURLConnection) new URL(apiRequestUri.toString()).openConnection();
-                InputStream is = connection.getInputStream();
-                StringBuilder sb = new StringBuilder();
-                BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
+                List<String> dates = new ArrayList<>();
+                Calendar cal = Calendar.getInstance();
+                while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+                    cal.add(Calendar.DAY_OF_MONTH, -1);
                 }
-                jsonString = sb.toString();
+                for (int i = 0; i < 6; i++) {
+                    dates.add(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime()));
+                    cal.add(Calendar.DAY_OF_MONTH, 1);
+                }
+                jsonString = JSONGetter.getScheduleByGroupId(groupIndex, dates);
                 FileOutputStream fos = openFileOutput(instIndex + "_" + facultIndex + "_" + groupIndex + ".json", MODE_PRIVATE);
                 fos.write(jsonString.getBytes());
                 fos.close();
@@ -228,10 +247,5 @@ public class MainActivity extends Activity {
             }
             return jsonString;
         }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
-    };
+    }
 }

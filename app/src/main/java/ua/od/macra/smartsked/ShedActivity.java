@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import ua.od.macra.smartsked.adapter.ShedModelAdapter;
 import ua.od.macra.smartsked.models.Strings;
 import ua.od.macra.smartsked.models.json.Break;
 import ua.od.macra.smartsked.models.json.NoPair;
@@ -41,7 +42,7 @@ public class ShedActivity extends Activity {
         String headerText = getResources().getString(
                 R.string.list_header_group_name) + " " +
                 intent.getStringExtra(Strings.EXTRA_GROUP_NAME);
-        ((TextView)headerView.findViewById(R.id.list_header_group_name)).setText(headerText);
+        ((TextView) headerView.findViewById(R.id.list_header_group_name)).setText(headerText);
         shedLayout.addHeaderView(headerView);
         ShedModelAdapter modelAdapter = new ShedModelAdapter(this);
         try {

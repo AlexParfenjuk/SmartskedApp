@@ -1,4 +1,4 @@
-package ua.od.macra.smartsked;
+package ua.od.macra.smartsked.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ua.od.macra.smartsked.R;
 import ua.od.macra.smartsked.models.list.ListEntry;
 
 

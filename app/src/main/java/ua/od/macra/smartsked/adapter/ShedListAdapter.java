@@ -1,4 +1,4 @@
-package ua.od.macra.smartsked;
+package ua.od.macra.smartsked.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+import ua.od.macra.smartsked.R;
 import ua.od.macra.smartsked.models.json.Break;
 import ua.od.macra.smartsked.models.json.NoPair;
 import ua.od.macra.smartsked.models.json.Pair;
@@ -63,7 +62,6 @@ public class ShedListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout view = new LinearLayout(mContext);
-        Date current = Calendar.getInstance().getTime();
         switch (getItemViewType(position)) {
             case TYPE_BREAK: {
                 Break br = (Break) mData.get(position);

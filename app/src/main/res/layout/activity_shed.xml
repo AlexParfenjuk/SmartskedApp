@@ -1,9 +1,6 @@
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shedTable"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:parallax_factor="8"
-    app:circular_parallax="true"
     tools:context="ua.od.macra.smartsked.ShedActivity" />

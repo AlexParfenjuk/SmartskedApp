@@ -19,7 +19,7 @@ public class NoPair extends ShedTask {
         this.number = number;
     }
 
-    public NoPair(JSONObject jsonObject, Date day){
+    public NoPair(JSONObject jsonObject, Date day) {
         try {
             number = jsonObject.getString(Strings.NUMBER);
             time_from = jsonObject.getString(Strings.TIME_FROM);
