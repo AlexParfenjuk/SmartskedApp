@@ -2,75 +2,121 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeightSmall"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:showDividers="none"
     android:baselineAligned="false">
 
-    <TextView
-        android:id="@id/pair_number_text"
-        android:layout_width="24dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="@color/list_pair_number_back_color"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#000"
-        android:textSize="18sp"
-        tools:text="1"
-        android:gravity="center" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall">
 
-    <TextView
-        android:id="@id/pair_time_text"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000"
-        tools:text="8:00 - 9:20"
-        android:textSize="12sp"
-        android:layout_weight="3.5"
-        android:gravity="center"
-        android:ellipsize="marquee" />
+        <TextView
+            android:id="@id/pair_number_text"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/list_pair_number_back_color"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000"
+            android:textSize="18sp"
+            tools:text="1"
+            android:gravity="center" />
 
-    <TextView
-        android:id="@id/pair_discip_text"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000"
-        tools:text="ГМКІО"
-        android:textSize="15sp"
-        android:layout_weight="4"
-        android:gravity="center"
-        android:ellipsize="marquee" />
+        <TextView
+            android:id="@id/pair_time_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000"
+            tools:text="8:00 - 9:20"
+            android:textSize="12sp"
+            android:layout_weight="3.5"
+            android:gravity="center"
+            android:ellipsize="marquee" />
 
-    <TextView
-        android:id="@id/pair_type_text"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000"
-        tools:text="Лек."
-        android:textSize="15sp"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:ellipsize="marquee" />
+        <TextView
+            android:id="@id/pair_discip_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000"
+            tools:text="ГМКІО"
+            android:textSize="15sp"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:ellipsize="marquee" />
 
-    <TextView
-        android:id="@id/pair_aud_text"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000"
-        tools:text="Дв-314"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
-        android:layout_weight="2.5"
-        android:ellipsize="marquee" />
+        <TextView
+            android:id="@id/pair_type_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000"
+            tools:text="Лек."
+            android:textSize="15sp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:ellipsize="marquee" />
+
+        <TextView
+            android:id="@id/pair_aud_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000"
+            tools:text="Дв-314"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:layout_weight="2.5"
+            android:ellipsize="marquee" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:orientation="horizontal"
+        android:showDividers="none"
+        android:background="@color/list_break_back_color" >
+
+        <TextView
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:background="@color/list_break_back_color" />
+
+        <TextView
+            style="@style/SmartskedTheme.NoPair"
+            tools:text="8:00 - 9:20"
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="12sp"
+            android:background="@color/list_break_back_color"
+            android:textColor="@color/list_break_text_color"
+            android:layout_weight="3.5"
+            android:gravity="center" />
+
+        <TextView
+            style="@style/SmartskedTheme.NoPair"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/list_break_back_color"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/break_text"
+            android:textSize="12sp"
+            android:textColor="@color/list_break_text_color"
+            android:layout_weight="8.5"
+            android:gravity="center" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -19,14 +19,13 @@ import ua.od.macra.smartsked.models.json.ShedTask;
 
 public class ShedListAdapter extends BaseAdapter {
 
-    private static final int TYPE_BREAK = 0;
-    private static final int TYPE_NOPAIR = 1;
-    private static final int TYPE_PAIR = 2;
-    private List<ShedTask> mData = new ArrayList<>();
+    private static final int TYPE_NOPAIR = 0;
+    private static final int TYPE_PAIR = 1;
+    private List<Pair> mData = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context mContext;
 
-    public ShedListAdapter(Context context, List<ShedTask> tasks) {
+    public ShedListAdapter(Context context, List<Pair> tasks) {
         this.mContext = context;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = tasks;
@@ -34,14 +33,7 @@ public class ShedListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        Object object = mData.get(position);
-        if (object instanceof Break)
-            return TYPE_BREAK;
-        else if (object instanceof Pair)
-            return TYPE_PAIR;
-        else if (object instanceof NoPair)
-            return TYPE_NOPAIR;
-        return -1;
+        return mData.get(position) == null ? TYPE_NOPAIR : TYPE_PAIR;
     }
 
     @Override
@@ -66,7 +58,6 @@ public class ShedListAdapter extends BaseAdapter {
             case TYPE_BREAK: {
                 Break br = (Break) mData.get(position);
                 mInflater.inflate(R.layout.ssked_break_list_item, view);
-                ((TextView) view.findViewById(R.id.break_time_text)).setText(br.getTimeString());
                 break;
             }
             case TYPE_PAIR: {
@@ -77,6 +68,7 @@ public class ShedListAdapter extends BaseAdapter {
                 ((TextView) view.findViewById(R.id.pair_discip_text)).setText(pair.name);
                 ((TextView) view.findViewById(R.id.pair_number_text)).setText(pair.number);
                 ((TextView) view.findViewById(R.id.pair_type_text)).setText(pair.type);
+                ((TextView) view.findViewById(R.id.break_time_text)).setText(br.getTimeString());
                 break;
             }
             case TYPE_NOPAIR: {

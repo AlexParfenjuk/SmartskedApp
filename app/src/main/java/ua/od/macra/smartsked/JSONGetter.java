@@ -107,7 +107,7 @@ public class JSONGetter {
         public void run() {
             String line;
             final String API_KEY = "androidappbunny";
-            final Uri.Builder URIBUILDER = new Uri.Builder()
+            final Uri.Builder uriBuilder = new Uri.Builder()
                     .scheme("http")
                     .authority("smartsked.com.ua")
                     .appendPath("api")
@@ -118,14 +118,14 @@ public class JSONGetter {
                 URL url = new URL("http://smartsked.com.ua");
                 switch (mode) {
                     case INST_LIST: {
-                        url = new URL(URIBUILDER
+                        url = new URL(uriBuilder
                                 .appendPath("institute")
                                 .appendPath("list").build().toString());
                         break;
                     }
                     case INST_BY_ID: {
                         String id = args[0];
-                        Uri.Builder uriBuild = URIBUILDER
+                        Uri.Builder uriBuild = uriBuilder
                                 .appendPath("institute")
                                 .appendPath(id)
                                 .appendQueryParameter("appendFaculties", args[1].equals("1") ? "1" : "0");
@@ -133,14 +133,14 @@ public class JSONGetter {
                         break;
                     }
                     case FACULT_LIST: {
-                        url = new URL(URIBUILDER
+                        url = new URL(uriBuilder
                                 .appendPath("faculty")
                                 .appendPath("list").build().toString());
                         break;
                     }
                     case FACULT_BY_ID: {
                         String id = args[0];
-                        Uri.Builder uriBuild = URIBUILDER
+                        Uri.Builder uriBuild = uriBuilder
                                 .appendPath("faculty")
                                 .appendPath(id)
                                 .appendQueryParameter("appendGroups", args[1].equals("1") ? "1" : "0");
@@ -148,14 +148,14 @@ public class JSONGetter {
                         break;
                     }
                     case GROUP_LIST: {
-                        url = new URL(URIBUILDER
+                        url = new URL(uriBuilder
                                 .appendPath("group")
                                 .appendPath("list").build().toString());
                         break;
                     }
                     case GROUP_BY_ID: {
                         String id = args[0];
-                        Uri.Builder uriBuild = URIBUILDER
+                        Uri.Builder uriBuild = uriBuilder
                                 .appendPath("group")
                                 .appendPath(id)
                                 .appendQueryParameter("appendLessons", args[1].equals("1") ? "1" : "0");
@@ -164,7 +164,7 @@ public class JSONGetter {
                     }
                     case SCHEDULE_ID: {
                         String id = args[0];
-                        Uri.Builder uriBuild = URIBUILDER
+                        Uri.Builder uriBuild = uriBuilder
                                 .appendPath("schedule")
                                 .appendPath(id);
                         for (int i = 1; i < args.length; i++) {
@@ -174,14 +174,14 @@ public class JSONGetter {
                         break;
                     }
                     case SCHEDULE_DATA: {
-                        Uri.Builder uriBuild = URIBUILDER
+                        Uri.Builder uriBuild = uriBuilder
                                 .appendPath("schedule")
                                 .appendPath("data");
                         url = new URL(uriBuild.build().toString());
                         break;
                     }
                     case SCHEDULE_NOW: {
-                        Uri.Builder uriBuild = URIBUILDER
+                        Uri.Builder uriBuild = uriBuilder
                                 .appendPath("schedule")
                                 .appendPath("now");
                         url = new URL(uriBuild.build().toString());

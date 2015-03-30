@@ -11,7 +11,7 @@
     <string name="header_aud_text">МІСЦЕ</string>
     <string name="header_num_text">№</string>
     <string name="no_pair_desc_text">Немає пари</string>
-    <string name="list_header_group_name">Розклад групи</string>
+    <string name="list_header_group_name">Розклад групи %s</string>
     <string name="show_button_text">Перейти</string>
 
     <string-array name="weekdays">
@@ -23,11 +23,17 @@
         <item>Субота</item>
     </string-array>
 
-    <string-array name="institutes">
-        <item>@string/not_chosen</item>
-        <item>Одеський технологічний інститут харчової промисловості ім. М. В. Ломоносова</item>
-        <item>Навчально-науковий інститут прикладної економіки і менеджменту ім. Г.Е. Вейнштейна</item>
-        <item>Навчально-науковий інститут механіки, автоматизації і комп\’ютерних систем ім. П.М.Платонова</item>
-        <item>Інститут холоду, кріотехнологій та екоенергетики ім. В. С. Мартиновського</item>
+    <string-array name="schedule_time">
+        <item>8:00 – 9:20</item>
+        <item>9:20 – 9:30</item>
+        <item>9:30 – 10:50</item>
+        <item>10:50 – 11:30</item>
+        <item>11:30 – 12:50</item>
+        <item>12:50 – 13:00</item>
+        <item>13:00 – 14:20</item>
+        <item>14:20 – 14:30</item>
+        <item>14:30 – 15:50</item>
+        <item>15:50 – 16:00</item>
+        <item>16:00 – 17:20</item>
     </string-array>
 </resources>

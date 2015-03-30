@@ -5,29 +5,24 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
-
 import ua.od.macra.smartsked.models.Strings;
 
-public class Pair extends ShedTask {
+public class Pair {
 
-    public String time_from, time_to, name, type, aud, number;
+    public int id, group_id, index;
+    public String name, place, type, teacher_name;
 
-    public Pair(JSONObject jsonObject, Date day) {
+    public Pair(JSONObject jsonObject) {
         try {
-            number = jsonObject.getString(Strings.NUMBER);
-            time_from = jsonObject.getString(Strings.TIME_FROM);
-            time_to = jsonObject.getString(Strings.TIME_TO);
-            name = jsonObject.getString(Strings.DISCIPL);
-            type = jsonObject.getString(Strings.TYPE);
-            aud = jsonObject.getString(Strings.AUD);
-            date = day;
+            id = jsonObject.getInt(Strings.PAIR_ID);
+            group_id = jsonObject.getInt(Strings.PAIR_GROUP_ID);
+            index = jsonObject.getInt(Strings.PAIR_INDEX);
+            name = jsonObject.getString(Strings.PAIR_NAME);
+            type = jsonObject.getString(Strings.PAIR_TYPE);
+            place = jsonObject.getString(Strings.PAIR_PLACE);
+            teacher_name = jsonObject.getString(Strings.PAIR_TEACHER);
         } catch (JSONException e) {
             Log.d("PairConstructor", "Can't parse JSON");
         }
-    }
-
-    public String getTimeString() {
-        return time_from + " : " + time_to;
     }
 }

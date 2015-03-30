@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Locale;
 
 import ua.od.macra.smartsked.R;
-import ua.od.macra.smartsked.models.json.ShedTask;
+import ua.od.macra.smartsked.models.json.Pair;
 
 public class ListEntry {
     private Date date;
-    private List<ShedTask> taskList;
+    private List<Pair> taskList;
     private Context mContext;
 
-    public ListEntry(Context context, Date date, List<ShedTask> taskList) {
+    public ListEntry(Context context, Date date, List<Pair> taskList) {
         this.date = date;
         this.taskList = taskList;
         mContext = context;
@@ -33,7 +33,7 @@ public class ListEntry {
         return weekDays[calendar.get(Calendar.DAY_OF_WEEK) - 2];
     }
 
-    public List<ShedTask> getEventList() {
+    public List<Pair> getEventList() {
         return taskList;
     }
 }
