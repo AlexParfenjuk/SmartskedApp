@@ -1,31 +1,29 @@
 package ua.od.macra.smartsked.adapter;
 
 import android.content.Context;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ua.od.macra.smartsked.R;
-import ua.od.macra.smartsked.models.json.Break;
-import ua.od.macra.smartsked.models.json.NoPair;
-import ua.od.macra.smartsked.models.json.Pair;
+import ua.od.macra.smartsked.models.json.Lesson;
 import ua.od.macra.smartsked.models.json.ShedTask;
 
 public class ShedListAdapter extends BaseAdapter {
 
     private static final int TYPE_NOPAIR = 0;
     private static final int TYPE_PAIR = 1;
-    private List<Pair> mData = new ArrayList<>();
+    private List<Pair<Integer, ShedTask>> mData = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context mContext;
 
-    public ShedListAdapter(Context context, List<Pair> tasks) {
+    public ShedListAdapter(Context context, List<Pair<Integer, ShedTask>> tasks) {
         this.mContext = context;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = tasks;
@@ -33,7 +31,7 @@ public class ShedListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return mData.get(position) == null ? TYPE_NOPAIR : TYPE_PAIR;
+        return mData.get(position).second instanceof Lesson ? TYPE_PAIR: TYPE_NOPAIR;
     }
 
     @Override
@@ -53,29 +51,26 @@ public class ShedListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LinearLayout view = new LinearLayout(mContext);
+        View view = convertView;
+        String[] breakTimes = mContext.getResources().getStringArray(R.array.break_time);
+        String[] pairTimes = mContext.getResources().getStringArray(R.array.pair_time);
         switch (getItemViewType(position)) {
-            case TYPE_BREAK: {
-                Break br = (Break) mData.get(position);
-                mInflater.inflate(R.layout.ssked_break_list_item, view);
-                break;
-            }
             case TYPE_PAIR: {
-                Pair pair = (Pair) mData.get(position);
-                mInflater.inflate(R.layout.ssked_pair_list_item, view);
-                ((TextView) view.findViewById(R.id.pair_time_text)).setText(pair.getTimeString());
-                ((TextView) view.findViewById(R.id.pair_aud_text)).setText(pair.aud);
-                ((TextView) view.findViewById(R.id.pair_discip_text)).setText(pair.name);
-                ((TextView) view.findViewById(R.id.pair_number_text)).setText(pair.number);
-                ((TextView) view.findViewById(R.id.pair_type_text)).setText(pair.type);
-                ((TextView) view.findViewById(R.id.break_time_text)).setText(br.getTimeString());
+                Lesson lesson = (Lesson) mData.get(position).second;
+                view = mInflater.inflate(R.layout.ssked_pair_list_item, null, false);
+                ((TextView) view.findViewById(R.id.pair_time_text)).setText(pairTimes[position]);
+                ((TextView) view.findViewById(R.id.pair_aud_text)).setText(lesson.place);
+                ((TextView) view.findViewById(R.id.pair_discip_text)).setText(lesson.name);
+                ((TextView) view.findViewById(R.id.pair_number_text)).setText(String.valueOf(mData.get(position).first));
+                ((TextView) view.findViewById(R.id.pair_type_text)).setText(lesson.type);
+                ((TextView) view.findViewById(R.id.break_time_text)).setText(breakTimes[position]);
                 break;
             }
             case TYPE_NOPAIR: {
-                NoPair noPair = (NoPair) mData.get(position);
-                mInflater.inflate(R.layout.ssked_no_pair_list_item, view);
-                ((TextView) view.findViewById(R.id.pair_time_text)).setText(noPair.getTimeString());
-                ((TextView) view.findViewById(R.id.pair_number_text)).setText(noPair.number);
+                view = mInflater.inflate(R.layout.ssked_no_pair_list_item, null, false);
+                ((TextView) view.findViewById(R.id.pair_time_text)).setText(pairTimes[position]);
+                ((TextView) view.findViewById(R.id.pair_number_text)).setText(String.valueOf(position + 1));
+                ((TextView) view.findViewById(R.id.break_time_text)).setText(breakTimes[position]);
                 break;
             }
         }

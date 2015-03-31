@@ -43,7 +43,7 @@ public class ShedModelAdapter extends ArrayAdapter<ListEntry> {
         }
         holder.headerDateText.setText(entry.getDateString());
         holder.headerDayText.setText(entry.getDOWString());
-        holder.dayList.setAdapter(new ShedListAdapter(mContext, entry.getEventList()));
+        holder.dayList.setAdapter(new ShedListAdapter(mContext, entry.getEventPairList()));
         return view;
     }
 

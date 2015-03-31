@@ -23,17 +23,21 @@
         <item>Субота</item>
     </string-array>
 
-    <string-array name="schedule_time">
+    <string-array name="pair_time">
         <item>8:00 – 9:20</item>
-        <item>9:20 – 9:30</item>
         <item>9:30 – 10:50</item>
-        <item>10:50 – 11:30</item>
         <item>11:30 – 12:50</item>
-        <item>12:50 – 13:00</item>
         <item>13:00 – 14:20</item>
-        <item>14:20 – 14:30</item>
         <item>14:30 – 15:50</item>
-        <item>15:50 – 16:00</item>
         <item>16:00 – 17:20</item>
+    </string-array>
+
+    <string-array name="break_time">
+        <item>9:20 – 9:30</item>
+        <item>10:50 – 11:30</item>
+        <item>12:50 – 13:00</item>
+        <item>14:20 – 14:30</item>
+        <item>15:50 – 16:00</item>
+        <item>Кінець дня</item>
     </string-array>
 </resources>

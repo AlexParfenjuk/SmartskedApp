@@ -5,14 +5,14 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ua.od.macra.smartsked.models.Strings;
+import ua.od.macra.smartsked.Strings;
 
-public class Pair {
+public class Lesson implements ShedTask{
 
     public int id, group_id, index;
     public String name, place, type, teacher_name;
 
-    public Pair(JSONObject jsonObject) {
+    public Lesson(JSONObject jsonObject) {
         try {
             id = jsonObject.getInt(Strings.PAIR_ID);
             group_id = jsonObject.getInt(Strings.PAIR_GROUP_ID);

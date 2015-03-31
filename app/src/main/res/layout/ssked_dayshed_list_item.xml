@@ -100,6 +100,6 @@
     <ListView
         android:id="@id/day_list"
         android:layout_width="match_parent"
-        android:layout_height="414dp"
+        android:layout_height="412dp"
         android:orientation="vertical" />
 </LinearLayout>

@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,11 +30,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import ua.od.macra.smartsked.models.Faculty;
 import ua.od.macra.smartsked.models.Group;
 import ua.od.macra.smartsked.models.Institute;
-import ua.od.macra.smartsked.models.Strings;
 
 
 public class MainActivity extends Activity {
@@ -73,6 +74,49 @@ public class MainActivity extends Activity {
 
         groupSpinner = (Spinner) findViewById(R.id.groupSpinner);
         groupSpinner.setOnItemSelectedListener(groupListener);
+    }
+
+    private void initData() {
+        String instJsonString = null, facultJsonString = null, groupJsonString = null;
+        JSONArray instArray, facultArray, groupArray;
+        networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            instJsonString = JSONGetter.getInstList();
+            facultJsonString = JSONGetter.getFacultList();
+            groupJsonString = JSONGetter.getGroupList();
+            new FileSaver(instJsonString, Strings.FILE_NAME_INST).start();
+            new FileSaver(facultJsonString, Strings.FILE_NAME_FACULT).start();
+            new FileSaver(groupJsonString, Strings.FILE_NAME_GROUPS).start();
+        } else {
+            try {
+                instJsonString = new FileLoader().execute(Strings.FILE_NAME_INST).get();
+                facultJsonString = new FileLoader().execute(Strings.FILE_NAME_FACULT).get();
+                groupJsonString = new FileLoader().execute(Strings.FILE_NAME_GROUPS).get();
+            } catch (InterruptedException | ExecutionException e) {
+                Log.d(LOG_TAG, "Error while getting Asynctask result");
+            }
+        }
+        if ((instJsonString != null) && (facultJsonString != null) && (groupJsonString != null)) {
+            try {
+                instArray = new JSONArray(instJsonString);
+                facultArray = new JSONArray(facultJsonString);
+                groupArray = new JSONArray(groupJsonString);
+
+                for (int i = 0; i < instArray.length(); i++) {
+                    instList.add(new Institute(instArray.getJSONObject(i)));
+                }
+                for (int i = 0; i < facultArray.length(); i++) {
+                    facultList.add(new Faculty(facultArray.getJSONObject(i)));
+                }
+                for (int i = 0; i < groupArray.length(); i++) {
+                    groupList.add(new Group(groupArray.getJSONObject(i)));
+                }
+            } catch (JSONException e) {
+                Log.d(LOG_TAG, "Can't parse JSON");
+            }
+        }
+        else
+            Toast.makeText(MainActivity.this, "Не можу завантажити списки :(", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -116,25 +160,6 @@ public class MainActivity extends Activity {
 
         }
     };
-
-    private void initData() {
-        try {
-            JSONArray instArray = new JSONArray(JSONGetter.getInstList());
-            JSONArray facultArray = new JSONArray(JSONGetter.getFacultList());
-            JSONArray groupArray = new JSONArray(JSONGetter.getGroupList());
-            for (int i = 0; i < instArray.length(); i++) {
-                instList.add(new Institute(instArray.getJSONObject(i)));
-            }
-            for (int i = 0; i < facultArray.length(); i++) {
-                facultList.add(new Faculty(facultArray.getJSONObject(i)));
-            }
-            for (int i = 0; i < groupArray.length(); i++) {
-                groupList.add(new Group(groupArray.getJSONObject(i)));
-            }
-        } catch (JSONException e) {
-            Log.d(LOG_TAG, "Json error:" + e.getMessage());
-        }
-    }
 
     private AdapterView.OnItemSelectedListener facultListener = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -193,69 +218,83 @@ public class MainActivity extends Activity {
     };
 
     public void onShowButtonClick(View view) {
-        new Parser().execute();
+        String jsonString = null;
+        final String fileName = instIndex + "_" + facultIndex + "_" + groupIndex + ".json";
+        networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            List<String> dates = new ArrayList<>();
+            Calendar cal = Calendar.getInstance();
+            while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+                cal.add(Calendar.DAY_OF_MONTH, -1);
+            }
+            for (int i = 0; i < 6; i++) {
+                dates.add(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            jsonString = JSONGetter.getScheduleByGroupId(groupIndex, dates);
+            new FileSaver(jsonString, fileName).start();
+        } else {
+            try {
+                jsonString = new FileLoader().execute(fileName).get();
+            } catch (InterruptedException | ExecutionException e) {
+                Log.d(LOG_TAG, "Error while getting Asynctask result");
+            }
+        }
+
+        if (jsonString != null) {
+            Intent startShed = new Intent(MainActivity.this, ShedActivity.class);
+            startShed.putExtra(Strings.EXTRA_GROUP_NAME, groupName);
+            startShed.putExtra(Strings.EXTRA_JSON, jsonString);
+            startActivity(startShed);
+        } else
+            Toast.makeText(MainActivity.this, "Не можу завантажити розклад :(", Toast.LENGTH_LONG).show();
+
     }
 
-    class Parser extends AsyncTask<Void, Void, Void> {
-
-        private boolean isInetAvailable;
-        private String jsonString;
+    class FileLoader extends AsyncTask<String, Void, String> {
 
         @Override
-        protected void onPreExecute() {
-            networkInfo = connMgr.getActiveNetworkInfo();
-            isInetAvailable = networkInfo != null && networkInfo.isConnected();
-        }
-
-        @Override
-        protected Void doInBackground(Void... v) {
-            final String fileName = instIndex + "_" + facultIndex + "_" + groupIndex + ".json";
-            if (isInetAvailable) {
-                try {
-                    List<String> dates = new ArrayList<>();
-                    Calendar cal = Calendar.getInstance();
-                    while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
-                        cal.add(Calendar.DAY_OF_MONTH, -1);
-                    }
-                    for (int i = 0; i < 6; i++) {
-                        dates.add(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime()));
-                        cal.add(Calendar.DAY_OF_MONTH, 1);
-                    }
-                    jsonString = JSONGetter.getScheduleByGroupId(groupIndex, dates);
-                    FileOutputStream fos = openFileOutput(fileName, MODE_PRIVATE);
-                    fos.write(jsonString.getBytes());
-                    fos.close();
-                } catch (IOException e) {
-                    Log.d(LOG_TAG, "Can't connect to the server");
+        protected String doInBackground(String... strings) {
+            String fileName = strings[0];
+            String resultString = "";
+            try {
+                FileInputStream fis = openFileInput(fileName);
+                InputStreamReader isr = new InputStreamReader(fis);
+                int content;
+                StringBuilder sb = new StringBuilder();
+                while ((content = isr.read()) != -1) {
+                    sb.append((char) content);
                 }
-            } else{
-                try {
-                    FileInputStream fis = openFileInput(fileName);
-                    InputStreamReader isr = new InputStreamReader(fis);
-                    int content;
-                    StringBuilder sb = new StringBuilder();
-                    while ((content = isr.read()) != -1) {
-                        sb.append((char) content);
-                    }
-                    jsonString = sb.toString();
-                    isr.close();
-                    fis.close();
-                } catch (IOException e) {
-                    Log.d(LOG_TAG, "File not exist");
-                }
+                resultString = sb.toString();
+                isr.close();
+                fis.close();
+            } catch (IOException e) {
+                Log.d(LOG_TAG, "File not exist");
             }
-            return null;
+            return resultString;
+        }
+    }
+
+    class FileSaver extends Thread {
+
+        String targetString, fileName;
+
+        FileSaver(String targetString, String fileName) {
+            this.targetString = targetString;
+            this.fileName = fileName;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            if (jsonString != null) {
-                Intent startShed = new Intent(MainActivity.this, ShedActivity.class);
-                startShed.putExtra(Strings.EXTRA_GROUP_NAME, groupName);
-                startShed.putExtra(Strings.EXTRA_JSON, jsonString);
-                startActivity(startShed);
-            } else
-                Toast.makeText(MainActivity.this, "Не можу завантажити розклад :(", Toast.LENGTH_LONG).show();
+        public void run() {
+            try {
+                FileOutputStream fos = openFileOutput(fileName, MODE_PRIVATE);
+                fos.write(targetString.getBytes());
+                fos.close();
+            } catch (FileNotFoundException e) {
+                Log.d(LOG_TAG, "File not found");
+            } catch (IOException e) {
+                Log.d(LOG_TAG, "Error while opening output stream");
+            }
         }
     }
 }

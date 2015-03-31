@@ -96,7 +96,7 @@
         <TextView
             style="@style/SmartskedTheme.NoPair"
             tools:text="8:00 - 9:20"
-            android:id="@+id/textView6"
+            android:id="@+id/break_time_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"

@@ -196,7 +196,7 @@ public class JSONGetter {
                 }
                 jsonString = sb.toString();
             } catch (IOException e) {
-                Log.d(LOG_TAG, ERROR_URL);
+                Log.d(LOG_TAG, ERROR_URL + e.getMessage());
             }
         }
     }
