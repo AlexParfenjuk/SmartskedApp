@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="break_text">BREAK</string>
+    <string name="copyright">Rabaev Nikita, Matsegor Arthur.\n
+ONAFT 2015</string>
+    <string name="faculty">Faculty</string>
+    <string name="group">Group</string>
+    <string name="header_aud_text">PLACE</string>
+    <string name="header_discip_text">SUBJECT</string>
+    <string name="header_time_text">TIME</string>
+    <string name="header_type_text">TYPE</string>
+    <string name="institute">Institute</string>
+    <string name="list_header_group_name">Group %s schedule</string>
+    <string name="no_pair_desc_text">No lesson</string>
+    <string name="not_chosen">Not chosen</string>
+    <string name="show_button_text">Show</string>
+
+    <string-array name="break_time">
+        <item>9:20 – 9:30</item>
+        <item>10:50 – 11:30</item>
+        <item>12:50 – 13:00</item>
+        <item>14:20 – 14:30</item>
+        <item>15:50 – 16:00</item>
+        <item>End of day</item>
+    </string-array>
+
+    <string-array name="weekdays">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+</resources>

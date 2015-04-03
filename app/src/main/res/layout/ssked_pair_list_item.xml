@@ -10,7 +10,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="?android:attr/listPreferredItemHeightSmall">
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:background="#fff">
 
         <TextView
             android:id="@id/pair_number_text"
@@ -28,14 +29,14 @@
             android:id="@id/pair_time_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="#fff"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000"
             tools:text="8:00 - 9:20"
             android:textSize="12sp"
             android:layout_weight="3.5"
             android:gravity="center"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:background="#fff" />
 
         <TextView
             android:id="@id/pair_discip_text"
@@ -85,7 +86,8 @@
         android:layout_height="24dp"
         android:orientation="horizontal"
         android:showDividers="none"
-        android:background="@color/list_break_back_color" >
+        android:background="@color/list_break_back_color"
+        android:id="@+id/breakLayout">
 
         <TextView
             android:layout_width="24dp"

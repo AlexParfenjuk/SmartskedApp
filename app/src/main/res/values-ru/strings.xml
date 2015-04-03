@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="break_text">ПЕРЕМЕНА</string>
+    <string name="copyright">Рабаев Никита, Мацегор Артур.\n ОНАПТ 2015г.</string>
+    <string name="faculty">Факультет</string>
+    <string name="group">Группа</string>
+    <string name="header_aud_text">МЕСТО</string>
+    <string name="header_discip_text">ПРЕДМЕТ</string>
+    <string name="header_time_text">ВРЕМЯ</string>
+    <string name="header_type_text">ТИП</string>
+    <string name="institute">Институт</string>
+    <string name="list_header_group_name">Расписание гр. %s</string>
+    <string name="no_pair_desc_text">Нет пары</string>
+    <string name="not_chosen">Не выбрано</string>
+    <string name="show_button_text">Перейти</string>
+
+    <string-array name="break_time">
+        <item>9:20 – 9:30</item>
+        <item>10:50 – 11:30</item>
+        <item>12:50 – 13:00</item>
+        <item>14:20 – 14:30</item>
+        <item>15:50 – 16:00</item>
+        <item>Конец дня</item>
+    </string-array>
+
+    <string-array name="weekdays">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+    </string-array>
+</resources>

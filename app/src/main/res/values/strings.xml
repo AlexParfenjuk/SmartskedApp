@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">SMARTSKED</string>
     <string name="institute">Інститут</string>
     <string name="faculty">Факультет</string>
     <string name="group">Група</string>
@@ -9,7 +8,6 @@
     <string name="header_discip_text">ПРЕДМЕТ</string>
     <string name="header_type_text">ТИП</string>
     <string name="header_aud_text">МІСЦЕ</string>
-    <string name="header_num_text">№</string>
     <string name="no_pair_desc_text">Немає пари</string>
     <string name="list_header_group_name">Розклад групи %s</string>
     <string name="show_button_text">Перейти</string>
@@ -23,15 +21,6 @@
         <item>Субота</item>
     </string-array>
 
-    <string-array name="pair_time">
-        <item>8:00 – 9:20</item>
-        <item>9:30 – 10:50</item>
-        <item>11:30 – 12:50</item>
-        <item>13:00 – 14:20</item>
-        <item>14:30 – 15:50</item>
-        <item>16:00 – 17:20</item>
-    </string-array>
-
     <string-array name="break_time">
         <item>9:20 – 9:30</item>
         <item>10:50 – 11:30</item>
@@ -40,4 +29,9 @@
         <item>15:50 – 16:00</item>
         <item>Кінець дня</item>
     </string-array>
+
+    <string name="copyright">
+        Рабаєв Микита, Мацегор Артур.\n
+        ОНАХТ 2015р.
+    </string>
 </resources>

@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeightSmall"
         android:orientation="horizontal"
-        android:showDividers="none">
+        android:showDividers="none"
+        android:id="@+id/header_layout">
 
         <TextView
             android:id="@id/header_day_text"
@@ -100,6 +101,6 @@
     <ListView
         android:id="@id/day_list"
         android:layout_width="match_parent"
-        android:layout_height="412dp"
+        android:layout_height="408dp"
         android:orientation="vertical" />
 </LinearLayout>

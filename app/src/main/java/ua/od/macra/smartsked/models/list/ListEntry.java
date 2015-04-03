@@ -23,6 +23,10 @@ public class ListEntry {
         mContext = context;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
     public String getDateString() {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
     }

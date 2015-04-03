@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import com.nirhart.parallaxscroll.views.ParallaxListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import ua.od.macra.smartsked.adapter.ShedModelAdapter;
 import ua.od.macra.smartsked.models.json.Lesson;
@@ -39,16 +41,18 @@ public class ShedActivity extends Activity {
         String groupName = intent.getStringExtra(Strings.EXTRA_GROUP_NAME);
         String headerText = getString(R.string.list_header_group_name, groupName);
 
-        ListView shedList = (ListView) findViewById(R.id.shedTable);
+        ParallaxListView shedList = (ParallaxListView) findViewById(R.id.shedTable);
 
         LinearLayout headerView = new LinearLayout(this);
         getLayoutInflater().inflate(R.layout.ssked_list_header, headerView);
         ((TextView) headerView.findViewById(R.id.list_header_group_name)).setText(headerText);
-        shedList.addHeaderView(headerView);
+        shedList.addParallaxedHeaderView(headerView);
 
         ShedModelAdapter modelAdapter = new ShedModelAdapter(this);
         try {
-            JSONObject daysJsonObject = new JSONObject(intent.getStringExtra(Strings.EXTRA_JSON));
+            String fileName = intent.getStringExtra(Strings.EXTRA_JSON_FILENAME);
+            String jsonString = new FileLoader(this).execute(fileName).get();
+            JSONObject daysJsonObject = new JSONObject(jsonString);
             JSONArray array = daysJsonObject.toJSONArray(daysJsonObject.names());
             JSONArray datesArray = daysJsonObject.names();
             for (int i = 0; i < array.length(); i++) {
@@ -75,11 +79,14 @@ public class ShedActivity extends Activity {
                         (this, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(datesArray.getString(i)), taskList);
                 modelAdapter.add(entry);
             }
+            shedList.setDividerHeight(0);
             shedList.setAdapter(modelAdapter);
         } catch (JSONException e) {
             Log.d(LOG_TAG, "Can't parse JSON");
         } catch (ParseException e) {
             Log.d(LOG_TAG, "Can't parse date string");
+        } catch (InterruptedException | ExecutionException e) {
+            Log.d(LOG_TAG, "Can't get Asynctask result");
         }
 
     }

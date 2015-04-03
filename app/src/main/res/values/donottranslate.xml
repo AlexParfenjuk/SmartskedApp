@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SMARTSKED</string>
+    <string name="header_num_text">№</string>
+
+    <string-array name="pair_time">
+        <item>8:00 – 9:20</item>
+        <item>9:30 – 10:50</item>
+        <item>11:30 – 12:50</item>
+        <item>13:00 – 14:20</item>
+        <item>14:30 – 15:50</item>
+        <item>16:00 – 17:20</item>
+    </string-array>
+
+</resources>
