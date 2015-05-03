@@ -1,0 +1,2 @@
+The presentation layer is represented by the app module, which is the Android application itself, with its resources, assets, logic.
+It also interact with the domain by running the usecases, an example would be to obtain the list of institutes/faculties, or request schedule for chosen group.
